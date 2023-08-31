@@ -6,7 +6,7 @@ import Link from "@mui/material/Link";
 
 export const Footer: FC = () => {
   return (
-    <>
+    <footer>
       <Box
         sx={{
           width: "100%",
@@ -31,6 +31,6 @@ export const Footer: FC = () => {
           {" 2023"}
         </Typography>
       </Box>
-    </>
+    </footer>
   );
 };

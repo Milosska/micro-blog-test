@@ -24,8 +24,8 @@ export const Header: FC = () => {
             </Typography>
           </StyledLink>
           <LinksContainer>
-            <NavLink href="/">Register</NavLink>
-            <NavLink href="/">Login</NavLink>
+            <NavLink href="/register">Sign Up</NavLink>
+            <NavLink href="/login">Sign In</NavLink>
           </LinksContainer>
         </Toolbar>
       </AppBar>
