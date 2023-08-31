@@ -12,7 +12,7 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
     <>
       <GlobalStyles />
       <Header />
-      <main style={{ flexGrow: 1 }}>{children}</main>
+      <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
       <Footer />
     </>
   );

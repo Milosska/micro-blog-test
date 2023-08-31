@@ -26,7 +26,7 @@ export default function Register() {
       <Box
         sx={{
           width: 500,
-          margin: "5% auto",
+          margin: "2% auto",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
