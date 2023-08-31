@@ -7,10 +7,11 @@ ${normalize}
 body {
       position: relative;
       display: flex;
-   flex-direction: row;
+   flex-direction: column;
   justify-content: center;
 
     width: 100%;
+    min-height: 100vh;
   margin: 0;
   background-color: #FFFFFF;
   
