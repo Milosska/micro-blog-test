@@ -16,6 +16,8 @@
     "@mui/material": "^5.14.7",
     "@mui/styled-engine-sc": "^5.14.7",
     "@styled/modern-normalize": "^1.0.1",
+    "@supabase/auth-helpers-nextjs": "^0.7.4",
+    "@supabase/supabase-js": "^2.33.1",
     "@types/node": "20.5.7",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
@@ -30,6 +32,8 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.3",
+    "encoding": "^0.1.13"
   }
 }

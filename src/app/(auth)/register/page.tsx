@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/helpers/formValidationSchemas";
 import { IRegisterForm } from "@/types/formTypes";
 
+import { handleRegistration } from "@/helpers/supabase/supabaseAuth";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,11 +18,14 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import FormHelperText from "@mui/material/FormHelperText";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { StyledLink } from "./page.styled";
 
 export default function Register() {
   const [accountType, setAccountType] = useState("");
+  const [isMessage, setIsMessage] = useState<string | null>(null);
 
   const handleChange = (event: SelectChangeEvent) => {
     setAccountType(event.target.value as string);
@@ -28,7 +33,6 @@ export default function Register() {
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -36,9 +40,19 @@ export default function Register() {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
+    const result = await handleRegistration(data);
+
+    if (result.message) {
+      setIsMessage(result.message);
+    }
+
+    setAccountType("");
     reset();
+  };
+
+  const handleAlertClose = () => {
+    setIsMessage(null);
   };
 
   return (
@@ -131,6 +145,25 @@ export default function Register() {
             {"Already have an account? Sign in"}
           </StyledLink>
         </Box>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={isMessage !== null}
+          autoHideDuration={6000}
+          onClose={handleAlertClose}
+        >
+          <MuiAlert
+            elevation={6}
+            // ref={ref}
+            variant="filled"
+            onClose={handleAlertClose}
+            severity={
+              isMessage === "Registrated successfully!" ? "success" : "error"
+            }
+            sx={{ width: "100%" }}
+          >
+            {isMessage}
+          </MuiAlert>
+        </Snackbar>
       </Box>
     </>
   );
