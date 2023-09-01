@@ -1,3 +1,9 @@
+"use client";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "@/helpers/formValidationSchemas";
+import { ILoginForm } from "@/types/formTypes";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,6 +14,20 @@ import Typography from "@mui/material/Typography";
 import { StyledLink } from "./page.styled";
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+    console.log(data);
+    reset();
+  };
+
   return (
     <Box
       sx={{
@@ -24,26 +44,33 @@ export default function Login() {
       <Typography component="h1" variant="h5">
         Sign In
       </Typography>
-      <Box component="form" noValidate sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        noValidate
+        sx={{ mt: 1 }}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <TextField
           margin="normal"
-          required
           fullWidth
           id="email"
           label="Email Address"
-          name="email"
           autoComplete="email"
           autoFocus
+          error={errors.email ? true : false}
+          helperText={errors.email?.message}
+          {...register("email")}
         />
         <TextField
           margin="normal"
-          required
           fullWidth
-          name="password"
           label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
+          error={errors.password ? true : false}
+          helperText={errors.password?.message}
+          {...register("password")}
         />
         <Button
           type="submit"

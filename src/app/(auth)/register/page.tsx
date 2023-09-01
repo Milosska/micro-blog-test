@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "@/helpers/formValidationSchemas";
+import { IRegisterForm } from "@/types/formTypes";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -11,6 +15,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import FormHelperText from "@mui/material/FormHelperText";
 
 import { StyledLink } from "./page.styled";
 
@@ -19,6 +24,21 @@ export default function Register() {
 
   const handleChange = (event: SelectChangeEvent) => {
     setAccountType(event.target.value as string);
+  };
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
+    console.log(data);
+    reset();
   };
 
   return (
@@ -38,16 +58,23 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          noValidate
+          sx={{ mt: 1 }}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <TextField
             margin="normal"
             required
             fullWidth
             id="nickame"
             label="Nickname"
-            name="nickname"
             autoComplete="nickname"
             autoFocus
+            error={errors.nickname ? true : false}
+            helperText={errors.nickname?.message}
+            {...register("nickname")}
           />
 
           <FormControl fullWidth sx={{ marginTop: "10px" }}>
@@ -57,32 +84,40 @@ export default function Register() {
               id="type"
               value={accountType}
               label="Account type"
+              error={errors.type ? true : false}
+              {...register("type")}
               onChange={handleChange}
             >
               <MenuItem value={"author"}>Author</MenuItem>
               <MenuItem value={"commentator"}>Commentator</MenuItem>
             </Select>
+            {errors.type && !accountType && (
+              <FormHelperText error>{errors.type?.message}</FormHelperText>
+            )}
           </FormControl>
 
           <TextField
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Email Address"
-            name="email"
             autoComplete="email"
             autoFocus
+            error={errors.email ? true : false}
+            helperText={errors.email?.message}
+            {...register("email")}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
+            error={errors.password ? true : false}
+            helperText={errors.password?.message}
+            {...register("password")}
           />
           <Button
             type="submit"
