@@ -72,3 +72,15 @@ export const handleLogin = async (userData: ILoginForm) => {
     console.error("Unexpected error during login:", error.message);
   }
 };
+
+export const handleLogout = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      throw new Error();
+    }
+  } catch (error: any) {
+    console.error("Unexpected error during login:", error.message);
+  }
+};

@@ -6,6 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TryIcon from "@mui/icons-material/Try";
 
+import { LogoutBtn } from "../LogoutBtn/LogoutBtn";
 import { StyledLink, LinksContainer, NavLink } from "./Header.styled";
 
 export const Header: FC = () => {
@@ -26,6 +27,7 @@ export const Header: FC = () => {
           <LinksContainer>
             <NavLink href="/register">Sign Up</NavLink>
             <NavLink href="/login">Sign In</NavLink>
+            <LogoutBtn />
           </LinksContainer>
         </Toolbar>
       </AppBar>
