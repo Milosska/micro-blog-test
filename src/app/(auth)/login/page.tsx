@@ -4,6 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/helpers/formValidationSchemas";
 import { ILoginForm } from "@/types/formTypes";
 
+import { handleLogin } from "@/helpers/supabase/supabaseAuth";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -23,8 +25,9 @@ export default function Login() {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
+    const loginData = await handleLogin(data);
+    console.log(loginData);
     reset();
   };
 

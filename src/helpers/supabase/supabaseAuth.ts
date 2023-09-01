@@ -1,5 +1,5 @@
 import { supabase } from "./supabaseClient";
-import { IRegisterForm } from "@/types/formTypes";
+import { IRegisterForm, ILoginForm } from "@/types/formTypes";
 
 export const handleRegistration = async (userData: IRegisterForm) => {
   const { email, password, nickname, type } = userData;
@@ -53,3 +53,22 @@ async function insertCustomUserData(userData: {
     );
   }
 }
+
+export const handleLogin = async (userData: ILoginForm) => {
+  const { email, password } = userData;
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      throw new Error();
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error("Unexpected error during login:", error.message);
+  }
+};
