@@ -14,7 +14,6 @@ import { GlobalStyles } from "@/styles/GlobalStyles";
 export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // const [user, setUser] = useState<User | null>(null);
   const user = useSelector(selectUser);
   const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
@@ -40,7 +39,7 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
   return (
     <>
       <GlobalStyles />
-      <Header user={user} />
+      <Header />
       <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
       <Footer />
     </>

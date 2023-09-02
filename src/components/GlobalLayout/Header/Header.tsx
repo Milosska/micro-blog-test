@@ -1,6 +1,8 @@
 "use client";
-import { FC, useState } from "react";
-import { User } from "@supabase/auth-helpers-nextjs";
+import { FC } from "react";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/selectors";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,8 +12,9 @@ import TryIcon from "@mui/icons-material/Try";
 import { LogoutBtn } from "../LogoutBtn/LogoutBtn";
 import { StyledLink, LinksContainer, NavLink } from "./Header.styled";
 
-export const Header: FC<{ user: User | null }> = ({ user }) => {
-  console.log(user);
+export const Header: FC = () => {
+  const user = useSelector(selectUser);
+
   return (
     <>
       <AppBar position="static">
@@ -34,7 +37,7 @@ export const Header: FC<{ user: User | null }> = ({ user }) => {
                   component="p"
                   sx={{ fontWeight: "bold" }}
                 >
-                  Hello, {user.email}
+                  Hello, {user.nickname}!
                 </Typography>
                 <LogoutBtn />
               </>

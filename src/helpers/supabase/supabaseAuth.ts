@@ -132,7 +132,18 @@ export const handleRefresh = async () => {
       throw new Error();
     }
 
-    return user;
+    const userData = await retrieveAdditionalData(user.id);
+
+    if (!userData) {
+      throw new Error("User not found.");
+    }
+
+    const combinedData = {
+      ...user,
+      ...userData,
+    };
+
+    return combinedData;
   } catch (error: any) {
     console.error("Unexpected error during refresh:", error.message);
     return null;
