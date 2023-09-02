@@ -1,9 +1,9 @@
-"use client";
+import { AddNewPostForm } from "@/components/Forms/AddNewPostForm/AddNewPostForm";
 
 export default function GeneralPage() {
   return (
     <>
-      <p>General Page</p>
+      <AddNewPostForm />
     </>
   );
 }

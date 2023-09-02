@@ -31,3 +31,17 @@ export const loginSchema = object({
     .min(6, "Password is too short")
     .required("Password is required"),
 });
+
+export const postSchema = object({
+  title: string().max(100, "Title is too long").required("Title is required"),
+  summary: string()
+    .max(500, "Summary is too long")
+    .required("Summary is required"),
+  topic: string()
+    .oneOf(
+      ["science", "history", "art", "literature", "politics"],
+      "Invalide option"
+    )
+    .required("Type is required"),
+  text: string().max(5000, "Text is too long").required("Text is required"),
+});
