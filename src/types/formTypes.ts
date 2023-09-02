@@ -16,3 +16,7 @@ export interface IPostForm {
   text: string;
   topic: string;
 }
+
+export interface IPostPublication extends IPostForm {
+  author_id: string;
+}

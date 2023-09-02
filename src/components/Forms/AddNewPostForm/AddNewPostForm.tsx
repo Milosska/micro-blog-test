@@ -6,6 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { postSchema } from "@/helpers/formValidationSchemas";
 import { IPostForm } from "@/types/formTypes";
 
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/selectors";
+
+import { handleAddPost } from "@/helpers/supabase/supabasePosts";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -20,6 +25,7 @@ import { FormGrid } from "./AddnewFormPost.styled";
 
 export const AddNewPostForm: FC = () => {
   const [postTopic, setPostTopic] = useState("");
+  const user = useSelector(selectUser);
 
   const handleTopicChange = (event: SelectChangeEvent) => {
     setPostTopic(event.target.value as string);
@@ -35,9 +41,10 @@ export const AddNewPostForm: FC = () => {
   });
 
   const onSubmit: SubmitHandler<IPostForm> = async (data) => {
-    console.log(data);
-    // setPostTopic("");
-    // reset();
+    const postData = { ...data, author_id: user!.id };
+    await handleAddPost(postData);
+    setPostTopic("");
+    reset();
   };
 
   return (
