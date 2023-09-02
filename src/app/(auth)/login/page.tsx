@@ -4,8 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/helpers/formValidationSchemas";
 import { ILoginForm } from "@/types/formTypes";
 
-import { handleLogin } from "@/helpers/supabase/supabaseAuth";
-
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { loginUser } from "@/redux/authSlice/operations";
@@ -16,6 +14,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import { StyledLink } from "./page.styled";
 
@@ -25,6 +24,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm({
@@ -34,6 +34,16 @@ export default function Login() {
   const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     dispatch(loginUser(data));
     reset();
+  };
+
+  const handleAuthorExample = () => {
+    setValue("email", "wemamat937@pbridal.com");
+    setValue("password", "qwe12345");
+  };
+
+  const handleCommentatorExample = () => {
+    setValue("email", "sifimo3356@pbridal.com");
+    setValue("password", "qwe12345");
   };
 
   return (
@@ -59,6 +69,7 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <TextField
+          InputLabelProps={{ shrink: true }}
           margin="normal"
           fullWidth
           id="email"
@@ -70,6 +81,7 @@ export default function Login() {
           {...register("email")}
         />
         <TextField
+          InputLabelProps={{ shrink: true }}
           margin="normal"
           fullWidth
           label="Password"
@@ -88,7 +100,30 @@ export default function Login() {
         >
           Sign In
         </Button>
-
+        <Grid container spacing={6}>
+          <Grid item xs={6}>
+            <Button
+              onClick={handleAuthorExample}
+              type="button"
+              variant="contained"
+              color="warning"
+              sx={{ mt: 3, mb: 2, minWidth: "200px" }}
+            >
+              Author exp data
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              onClick={handleCommentatorExample}
+              type="button"
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 3, mb: 2, minWidth: "200px" }}
+            >
+              Commentator exp data
+            </Button>
+          </Grid>
+        </Grid>
         <StyledLink href="/register">
           {"Don't have an account? Sign Up"}
         </StyledLink>

@@ -6,6 +6,8 @@ import Link from "next/link";
 export const StyledContainer = styled.div`
   width: 100%;
   height: 85vh;
+  overflow: auto;
+
   background-color: #ffffff;
   background-size: cover;
   background-repeat: no-repeat;

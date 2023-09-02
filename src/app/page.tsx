@@ -14,6 +14,7 @@ export default function Home() {
           left: "45%",
           width: 800,
           textAlign: "center",
+          padding: "10px 5px",
         }}
       >
         <Typography
