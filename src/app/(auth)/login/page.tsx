@@ -26,8 +26,7 @@ export default function Login() {
   });
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    const loginData = await handleLogin(data);
-    console.log(loginData);
+    await handleLogin(data);
     reset();
   };
 

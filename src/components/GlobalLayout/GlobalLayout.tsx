@@ -1,5 +1,6 @@
 "use client";
 import { FC, useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { supabase } from "@/helpers/supabase/supabaseClient";
 import { User } from "@supabase/auth-helpers-nextjs";
@@ -12,8 +13,8 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-
-  console.log(user);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const userStateCheck = async () => {
@@ -25,12 +26,25 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
     };
 
     userStateCheck();
-  }, []);
+  }, [setUser]);
+
+  useEffect(() => {
+    const publicRoutes = ["/", "/login", "/register"];
+
+    if (user && publicRoutes.includes(pathname)) {
+      router.push("/general");
+      return;
+    }
+
+    if (!user && !publicRoutes.includes(pathname)) {
+      router.push("/");
+    }
+  }, [user, router, pathname]);
 
   return (
     <>
       <GlobalStyles />
-      <Header />
+      <Header user={user} />
       <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
       <Footer />
     </>

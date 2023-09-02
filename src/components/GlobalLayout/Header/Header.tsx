@@ -1,5 +1,6 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { User } from "@supabase/auth-helpers-nextjs";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,7 +10,8 @@ import TryIcon from "@mui/icons-material/Try";
 import { LogoutBtn } from "../LogoutBtn/LogoutBtn";
 import { StyledLink, LinksContainer, NavLink } from "./Header.styled";
 
-export const Header: FC = () => {
+export const Header: FC<{ user: User | null }> = ({ user }) => {
+  console.log(user);
   return (
     <>
       <AppBar position="static">
@@ -25,9 +27,23 @@ export const Header: FC = () => {
             </Typography>
           </StyledLink>
           <LinksContainer>
-            <NavLink href="/register">Sign Up</NavLink>
-            <NavLink href="/login">Sign In</NavLink>
-            <LogoutBtn />
+            {user ? (
+              <>
+                <Typography
+                  variant="button"
+                  component="p"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Hello, {user.email}
+                </Typography>
+                <LogoutBtn />
+              </>
+            ) : (
+              <>
+                <NavLink href="/register">Sign Up</NavLink>
+                <NavLink href="/login">Sign In</NavLink>
+              </>
+            )}
           </LinksContainer>
         </Toolbar>
       </AppBar>

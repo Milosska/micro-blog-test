@@ -14,6 +14,7 @@ export const LinksContainer = styled(Box)`
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 export const NavLink = styled(Link)`
