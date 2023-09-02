@@ -6,6 +6,10 @@ import { ILoginForm } from "@/types/formTypes";
 
 import { handleLogin } from "@/helpers/supabase/supabaseAuth";
 
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { loginUser } from "@/redux/authSlice/operations";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,6 +20,8 @@ import Typography from "@mui/material/Typography";
 import { StyledLink } from "./page.styled";
 
 export default function Login() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     register,
     handleSubmit,
@@ -25,8 +31,8 @@ export default function Login() {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    await handleLogin(data);
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+    dispatch(loginUser(data));
     reset();
   };
 

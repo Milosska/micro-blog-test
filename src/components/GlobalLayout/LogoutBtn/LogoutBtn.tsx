@@ -1,11 +1,16 @@
 import { FC } from "react";
-import { handleLogout } from "@/helpers/supabase/supabaseAuth";
+
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { logoutUser } from "@/redux/authSlice/operations";
 
 import Button from "@mui/material/Button";
 
 export const LogoutBtn: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleLogOut = async () => {
-    await handleLogout();
+    dispatch(logoutUser());
   };
 
   return (

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
+import { ReduxProvider } from "@/redux/ReduxProvider";
 import { GlobalLayout } from "@/components/GlobalLayout/GlobalLayout";
 
 const roboto = Roboto({
@@ -53,7 +54,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff"></meta>
       </head>
       <body className={roboto.className}>
-        <GlobalLayout>{children}</GlobalLayout>
+        <ReduxProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </ReduxProvider>
       </body>
     </html>
   );

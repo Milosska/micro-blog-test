@@ -5,7 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/helpers/formValidationSchemas";
 import { IRegisterForm } from "@/types/formTypes";
 
-import { handleRegistration } from "@/helpers/supabase/supabaseAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { registerUser } from "@/redux/authSlice/operations";
+import { selectRegisterMessage } from "@/redux/selectors";
+import { clearRegisterMessage } from "@/redux/authSlice/authSlice";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -19,13 +23,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import FormHelperText from "@mui/material/FormHelperText";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert from "@mui/material/Alert";
 
 import { StyledLink } from "./page.styled";
 
 export default function Register() {
   const [accountType, setAccountType] = useState("");
-  const [isMessage, setIsMessage] = useState<string | null>(null);
+  const isMessage = useSelector(selectRegisterMessage);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (event: SelectChangeEvent) => {
     setAccountType(event.target.value as string);
@@ -41,18 +46,13 @@ export default function Register() {
   });
 
   const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
-    const result = await handleRegistration(data);
-
-    if (result.message) {
-      setIsMessage(result.message);
-    }
-
+    dispatch(registerUser(data));
     setAccountType("");
     reset();
   };
 
   const handleAlertClose = () => {
-    setIsMessage(null);
+    dispatch(clearRegisterMessage());
   };
 
   return (
@@ -147,17 +147,19 @@ export default function Register() {
         </Box>
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={isMessage !== null}
+          open={isMessage.length > 0}
           autoHideDuration={6000}
           onClose={handleAlertClose}
         >
           <MuiAlert
             elevation={6}
-            // ref={ref}
             variant="filled"
             onClose={handleAlertClose}
             severity={
-              isMessage === "Registrated successfully!" ? "success" : "error"
+              isMessage ===
+              "Registrated successfully! Please, verify your email"
+                ? "success"
+                : "error"
             }
             sx={{ width: "100%" }}
           >
