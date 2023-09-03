@@ -1,5 +1,5 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, useState, ChangeEvent } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,7 +21,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 
-import { FormGrid } from "./AddnewFormPost.styled";
+import { FormGrid, FormThumb } from "./AddnewFormPost.styled";
 
 export const AddNewPostForm: FC = () => {
   const [postTopic, setPostTopic] = useState("");
@@ -34,6 +34,7 @@ export const AddNewPostForm: FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm({
@@ -42,9 +43,20 @@ export const AddNewPostForm: FC = () => {
 
   const onSubmit: SubmitHandler<IPostForm> = async (data) => {
     const postData = { ...data, author_id: user!.id };
+    console.log(postData);
+
     await handleAddPost(postData);
     setPostTopic("");
     reset();
+  };
+
+  const handleFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.files) {
+      const selectedFile: File = target.files[0];
+      setValue("image", selectedFile);
+    }
   };
 
   return (
@@ -86,34 +98,48 @@ export const AddNewPostForm: FC = () => {
             helperText={errors.summary?.message}
             {...register("summary")}
           />
-
-          <FormControl
-            fullWidth
-            sx={{
-              textAlign: "start",
-            }}
-          >
-            <InputLabel id="type">Topic</InputLabel>
-            <Select
-              labelId="topic"
-              id="topic"
-              value={postTopic}
-              label="Topic"
-              error={errors.topic ? true : false}
-              {...register("topic")}
-              onChange={handleTopicChange}
+          <FormThumb>
+            <FormControl
+              sx={{
+                textAlign: "start",
+                width: "450px",
+              }}
             >
-              <MenuItem value={"science"}>Science</MenuItem>
-              <MenuItem value={"history"}>History</MenuItem>
-              <MenuItem value={"art"}>Art</MenuItem>
-              <MenuItem value={"literature"}>Literature</MenuItem>
-              <MenuItem value={"politics"}>Politics</MenuItem>
-            </Select>
-            {errors.topic && !postTopic && (
-              <FormHelperText error>{errors.topic?.message}</FormHelperText>
-            )}
-          </FormControl>
+              <InputLabel id="type">Topic</InputLabel>
+              <Select
+                labelId="topic"
+                id="topic"
+                value={postTopic}
+                label="Topic"
+                error={errors.topic ? true : false}
+                {...register("topic")}
+                onChange={handleTopicChange}
+              >
+                <MenuItem value={"science"}>Science</MenuItem>
+                <MenuItem value={"history"}>History</MenuItem>
+                <MenuItem value={"art"}>Art</MenuItem>
+                <MenuItem value={"literature"}>Literature</MenuItem>
+                <MenuItem value={"politics"}>Politics</MenuItem>
+              </Select>
+              {errors.topic && !postTopic && (
+                <FormHelperText error>{errors.topic?.message}</FormHelperText>
+              )}
+            </FormControl>
 
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="image"
+              required
+              type="file"
+              {...register("image")}
+              onChange={handleFile}
+            />
+            <label htmlFor="image">
+              <Button component="span">Upload post image</Button>
+              <p>{errors.image?.message}</p>
+            </label>
+          </FormThumb>
           <TextField
             margin="normal"
             fullWidth

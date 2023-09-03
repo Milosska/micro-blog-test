@@ -30,3 +30,12 @@ export const FormGrid = styled.div`
     grid-row: 1 / 4;
   }
 `;
+
+export const FormThumb = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+`;
