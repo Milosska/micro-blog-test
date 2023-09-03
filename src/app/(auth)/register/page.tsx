@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { redirect } from "next/navigation";
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/helpers/formValidationSchemas";
@@ -8,7 +10,11 @@ import { IRegisterForm } from "@/types/formTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { registerUser } from "@/redux/authSlice/operations";
-import { selectRegisterMessage } from "@/redux/selectors";
+import {
+  selectRegisterMessage,
+  selectUser,
+  selectIsLoading,
+} from "@/redux/selectors";
 import { clearRegisterMessage } from "@/redux/authSlice/authSlice";
 
 import Avatar from "@mui/material/Avatar";
@@ -30,7 +36,15 @@ import { StyledLink } from "./page.styled";
 export default function Register() {
   const [accountType, setAccountType] = useState("");
   const isMessage = useSelector(selectRegisterMessage);
+  const user = useSelector(selectUser);
+  const selectIsAuthLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!selectIsAuthLoading && user) {
+      redirect("/general");
+    }
+  }, [user, selectIsAuthLoading]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setAccountType(event.target.value as string);

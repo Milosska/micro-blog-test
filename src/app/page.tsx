@@ -1,10 +1,24 @@
+"use client";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectUser, selectIsLoading } from "@/redux/selectors";
+import { redirect } from "next/navigation";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 
 import { StyledContainer, StyledLink } from "./page.styled";
 
 export default function Home() {
+  const user = useSelector(selectUser);
+  const selectIsAuthLoading = useSelector(selectIsLoading);
+
+  useEffect(() => {
+    if (!selectIsAuthLoading && user) {
+      redirect("/general");
+    }
+  }, [user, selectIsAuthLoading]);
+
   return (
     <StyledContainer>
       <Box

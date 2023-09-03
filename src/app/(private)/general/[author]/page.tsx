@@ -2,6 +2,10 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+import { useSelector } from "react-redux";
+import { selectUser, selectIsLoading } from "@/redux/selectors";
+import { redirect } from "next/navigation";
+
 import { getPostsByAuthor } from "@/helpers/supabase/supabasePosts";
 import { IPostPublicationExtended } from "@/types/formTypes";
 
@@ -13,8 +17,14 @@ export default function AuthorPage() {
   const [author, setAuthor] = useState<string | null>(null);
   const pathname = usePathname();
   const authorId = pathname.split("/")[2];
+  const user = useSelector(selectUser);
+  const selectIsAuthLoading = useSelector(selectIsLoading);
 
-  console.log(author);
+  useEffect(() => {
+    if (!selectIsAuthLoading && !user) {
+      redirect("/");
+    }
+  }, [user, selectIsAuthLoading]);
 
   useEffect(() => {
     const getPosts = async () => {

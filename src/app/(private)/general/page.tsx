@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
-import { selectUser } from "@/redux/selectors";
+import { selectUser, selectIsLoading } from "@/redux/selectors";
+import { redirect } from "next/navigation";
 
 import { getAllPosts } from "@/helpers/supabase/supabasePosts";
 import { IPostPublication } from "@/types/formTypes";
@@ -13,6 +14,13 @@ import { AddNewPostForm } from "@/components/Forms/AddNewPostForm/AddNewPostForm
 export default function GeneralPage() {
   const [posts, setPosts] = useState<IPostPublication[]>([]);
   const user = useSelector(selectUser);
+  const selectIsAuthLoading = useSelector(selectIsLoading);
+
+  useEffect(() => {
+    if (!selectIsAuthLoading && !user) {
+      redirect("/");
+    }
+  }, [user, selectIsAuthLoading]);
 
   useEffect(() => {
     const getPosts = async () => {

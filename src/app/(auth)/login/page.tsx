@@ -1,12 +1,16 @@
 "use client";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/helpers/formValidationSchemas";
 import { ILoginForm } from "@/types/formTypes";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { loginUser } from "@/redux/authSlice/operations";
+import { selectUser, selectIsLoading } from "@/redux/selectors";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -19,7 +23,15 @@ import Grid from "@mui/material/Grid";
 import { StyledLink } from "./page.styled";
 
 export default function Login() {
+  const user = useSelector(selectUser);
+  const selectIsAuthLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!selectIsAuthLoading && user) {
+      redirect("/general");
+    }
+  }, [user, selectIsAuthLoading]);
 
   const {
     register,
