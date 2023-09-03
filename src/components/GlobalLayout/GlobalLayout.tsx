@@ -1,6 +1,7 @@
 "use client";
 import { FC, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { Suspense } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
@@ -9,6 +10,7 @@ import { selectUser } from "@/redux/selectors";
 
 import { Header } from "./Header/Header";
 import { Footer } from "./Footer/Footer";
+import { Loader } from "../Loader/Loader";
 import { GlobalStyles } from "@/styles/GlobalStyles";
 
 export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
@@ -40,7 +42,9 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
     <>
       <GlobalStyles />
       <Header />
-      <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
+      <Suspense fallback={<Loader />}>
+        <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
+      </Suspense>
       <Footer />
     </>
   );
