@@ -1,4 +1,3 @@
-import { User } from "@supabase/supabase-js";
 import { supabase } from "./supabaseClient";
 import { IRegisterForm, ILoginForm } from "@/types/formTypes";
 
