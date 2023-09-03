@@ -32,3 +32,9 @@ export interface IPostPublication {
 export interface IPostPublicationExtended extends IPostPublication {
   users_data: { nickname: string };
 }
+
+export interface ICommentForm {
+  comment: string;
+  author_id?: string;
+  post_id?: number;
+}

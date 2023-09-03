@@ -73,3 +73,10 @@ export const postSchema = yup.object({
   text: yup.string().max(5000, "Text is too long").required("Text is required"),
   image: imageSchema,
 });
+
+export const commentSchema = yup.object({
+  comment: yup
+    .string()
+    .max(1000, "Comment is too long")
+    .required("Comment is required"),
+});

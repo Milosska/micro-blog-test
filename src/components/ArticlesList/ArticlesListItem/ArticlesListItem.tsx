@@ -12,11 +12,13 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
+import { AddCommentForm } from "@/components/Forms/AddCommentForm/AddCommentForm";
+
 export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector(selectUser);
 
-  const handleReadMore = () => {
+  const handleSeeComments = () => {
     setIsOpen((prevState) => !prevState);
   };
 
@@ -28,7 +30,7 @@ export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
         flexDirection: "column",
       }}
     >
-      <CardMedia sx={{ height: 140 }} image={post.img_url} title="Post image" />
+      <CardMedia sx={{ height: 250 }} image={post.img_url} title="Post image" />
       <CardContent sx={{ flexGrow: 1, textTransform: "uppercase" }}>
         <Typography
           gutterBottom
@@ -39,33 +41,22 @@ export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
           {post.title}
         </Typography>
         <Typography>{post.summary}</Typography>
-        {isOpen && (
-          <Typography
-            variant="body2"
-            sx={{
-              padding: "10px 5px",
-              fontSize: 16,
-              textTransform: "none",
-              textAlign: "justify",
-            }}
-          >
-            {post.text}
-          </Typography>
-        )}
+
+        <Typography
+          variant="body2"
+          sx={{
+            padding: "10px 5px",
+            fontSize: 16,
+            textTransform: "none",
+            textAlign: "justify",
+          }}
+        >
+          {post.text}
+        </Typography>
+
+        {user?.type === "commentator" && <AddCommentForm postId={post.id} />}
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button
-          onClick={handleReadMore}
-          size="small"
-          sx={{ fontWeight: 700, fontSize: "16px" }}
-        >
-          {isOpen ? "Hide text" : "Read more"}
-        </Button>
-        {user?.type === "commentator" && (
-          <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
-            Comment
-          </Button>
-        )}
         <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
           See all comments
         </Button>
