@@ -1,7 +1,6 @@
 "use client";
-import { FC, useEffect } from "react";
+import { FC, useEffect, Suspense } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Suspense } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";

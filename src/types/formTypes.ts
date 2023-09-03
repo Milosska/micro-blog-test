@@ -30,11 +30,24 @@ export interface IPostPublication {
 }
 
 export interface IPostPublicationExtended extends IPostPublication {
-  users_data: { nickname: string };
+  users_data: {
+    nickname: string;
+  };
 }
 
 export interface ICommentForm {
   comment: string;
   author_id?: string;
   post_id?: number;
+}
+
+export interface IComment {
+  id: number;
+  created_at: string;
+  comment: string;
+  author_id: string;
+  post_id: number;
+  users_data: {
+    nickname: string;
+  };
 }

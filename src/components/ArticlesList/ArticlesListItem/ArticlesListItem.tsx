@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import { AddCommentForm } from "@/components/Forms/AddCommentForm/AddCommentForm";
+import { CommentsList } from "../CommentsList/CommentsList";
 
 export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,10 +56,15 @@ export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
         </Typography>
 
         {user?.type === "commentator" && <AddCommentForm postId={post.id} />}
+        {isOpen && <CommentsList postId={post.id} />}
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
-          See all comments
+        <Button
+          onClick={handleSeeComments}
+          size="small"
+          sx={{ fontWeight: 700, fontSize: "16px" }}
+        >
+          {isOpen ? "Hide comments" : "See all comments"}
         </Button>
       </CardActions>
     </Card>
