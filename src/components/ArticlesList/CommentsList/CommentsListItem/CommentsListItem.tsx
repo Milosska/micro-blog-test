@@ -19,11 +19,11 @@ export const CommentsListItem: FC<{ comment: IComment }> = ({ comment }) => {
     <ListItem
       sx={{
         display: "flex",
-        flexDirection: user!.id === comment.author_id ? "row-reverse" : "row",
+        flexDirection: user?.id === comment.author_id ? "row-reverse" : "row",
         gap: "20px",
         alignItems: "baseline",
         width: "100%",
-        backgroundColor: user!.id === comment.author_id ? "#cde7fc" : "#e7e7e7",
+        backgroundColor: user?.id === comment.author_id ? "#cde7fc" : "#e7e7e7",
         ".MuiChip-root": {
           marginBottom: 0,
         },
