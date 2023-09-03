@@ -2,6 +2,9 @@
 import { FC, useState } from "react";
 import { IPostPublication } from "@/types/formTypes";
 
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/selectors";
+
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
@@ -9,10 +12,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-// import { StyledLink } from "./PostListitem.styled";
-
 export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector(selectUser);
 
   const handleReadMore = () => {
     setIsOpen((prevState) => !prevState);
@@ -52,7 +54,6 @@ export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
         )}
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
-        {/* <StyledLink href={`/general/${post.author_id}`}>View author</StyledLink> */}
         <Button
           onClick={handleReadMore}
           size="small"
@@ -60,9 +61,11 @@ export const ArticlesListItem: FC<{ post: IPostPublication }> = ({ post }) => {
         >
           {isOpen ? "Hide text" : "Read more"}
         </Button>
-        <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
-          Comment
-        </Button>
+        {user?.type === "commentator" && (
+          <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
+            Comment
+          </Button>
+        )}
         <Button size="small" sx={{ fontWeight: 700, fontSize: "16px" }}>
           See all comments
         </Button>

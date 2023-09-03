@@ -1,5 +1,9 @@
 import { supabase } from "./supabaseClient";
-import { IPostPublication, IPostForm } from "@/types/formTypes";
+import {
+  IPostPublication,
+  IPostPublicationExtended,
+  IPostForm,
+} from "@/types/formTypes";
 
 export const getAllPosts = async () => {
   try {
@@ -68,16 +72,16 @@ async function uploadPostImage(file: File) {
 
 export const getPostsByAuthor = async (authorId: string) => {
   try {
-let { data: posts, error } = await supabase
-  .from("posts")
-  .select("*")
+    let { data: posts, error } = await supabase
+      .from("posts")
+      .select("*, users_data(nickname)")
       .eq("author_id", `${authorId}`);
-    
+
     if (error) {
       throw new Error();
     }
 
-    return posts as IPostPublication[];
+    return posts as IPostPublicationExtended[];
   } catch (error: any) {
     console.error("Unexpected error:", error.message);
     return [];

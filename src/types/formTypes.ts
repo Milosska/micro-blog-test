@@ -28,3 +28,7 @@ export interface IPostPublication {
   text: string;
   topic: string;
 }
+
+export interface IPostPublicationExtended extends IPostPublication {
+  users_data: { nickname: string };
+}
