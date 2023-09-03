@@ -65,3 +65,21 @@ async function uploadPostImage(file: File) {
     console.error("Unexpected error during post image upload:", error.message);
   }
 }
+
+export const getPostsByAuthor = async (authorId: string) => {
+  try {
+let { data: posts, error } = await supabase
+  .from("posts")
+  .select("*")
+      .eq("author_id", `${authorId}`);
+    
+    if (error) {
+      throw new Error();
+    }
+
+    return posts as IPostPublication[];
+  } catch (error: any) {
+    console.error("Unexpected error:", error.message);
+    return [];
+  }
+};
