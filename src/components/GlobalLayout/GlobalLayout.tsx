@@ -24,7 +24,9 @@ export const GlobalLayout: FC<{ children: React.ReactNode }> = ({
       <GlobalStyles />
       <Header />
       <Suspense fallback={<Loader />}>
-        <main style={{ flexGrow: 1, height: "100%" }}>{children}</main>
+        <main style={{ position: "relative", flexGrow: 1, minHeight: "100%" }}>
+          {children}
+        </main>
       </Suspense>
       <Footer />
     </>

@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "react-redux": "^8.1.2",
+    "react-use": "^17.4.0",
     "styled-components": "^4.4.1",
     "typescript": "5.2.2",
     "yup": "^1.2.0"

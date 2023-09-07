@@ -1,16 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useWindowScroll } from "react-use";
 
 import { useSelector } from "react-redux";
 import { selectUser, selectIsLoading } from "@/redux/selectors";
-import { redirect } from "next/navigation";
+import { usePathname, redirect } from "next/navigation";
 
 import { getPostsByAuthor } from "@/helpers/supabase/supabasePosts";
 import { IPostPublicationExtended } from "@/types/formTypes";
 
 import Typography from "@mui/material/Typography";
 import { ArticlesList } from "@/components/ArticlesList/ArtictesList";
+import { UpBtn } from "@/components/UpBtn/UpBtn";
 
 export default function AuthorPage() {
   const [posts, setPosts] = useState<IPostPublicationExtended[]>([]);
@@ -19,6 +20,7 @@ export default function AuthorPage() {
   const authorId = pathname.split("/")[2];
   const user = useSelector(selectUser);
   const selectIsAuthLoading = useSelector(selectIsLoading);
+  const { y } = useWindowScroll();
 
   useEffect(() => {
     if (!selectIsAuthLoading && !user) {
@@ -46,6 +48,7 @@ export default function AuthorPage() {
         {author} posts
       </Typography>
       <ArticlesList posts={posts} />
+      {y > 500 && <UpBtn />}
     </>
   );
 }

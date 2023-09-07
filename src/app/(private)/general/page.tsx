@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useWindowScroll } from "react-use";
 
 import { useSelector } from "react-redux";
 import { selectUser, selectIsLoading } from "@/redux/selectors";
@@ -10,11 +11,13 @@ import { IPostPublication } from "@/types/formTypes";
 
 import { PostsList } from "@/components/PostsList/PostsList";
 import { AddNewPostForm } from "@/components/Forms/AddNewPostForm/AddNewPostForm";
+import { UpBtn } from "@/components/UpBtn/UpBtn";
 
 export default function GeneralPage() {
   const [posts, setPosts] = useState<IPostPublication[]>([]);
   const user = useSelector(selectUser);
   const selectIsAuthLoading = useSelector(selectIsLoading);
+  const { y } = useWindowScroll();
 
   useEffect(() => {
     if (!selectIsAuthLoading && !user) {
@@ -35,6 +38,7 @@ export default function GeneralPage() {
     <>
       {user?.type === "author" && <AddNewPostForm />}
       <PostsList posts={posts} />
+      {y > 500 && <UpBtn />}
     </>
   );
 }
