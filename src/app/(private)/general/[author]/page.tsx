@@ -12,6 +12,7 @@ import { IPostPublicationExtended } from "@/types/formTypes";
 import Typography from "@mui/material/Typography";
 import { ArticlesList } from "@/components/ArticlesList/ArtictesList";
 import { UpBtn } from "@/components/UpBtn/UpBtn";
+import { BackBtn } from "@/components/BackBtn/BackBtn";
 
 export default function AuthorPage() {
   const [posts, setPosts] = useState<IPostPublicationExtended[]>([]);
@@ -40,6 +41,7 @@ export default function AuthorPage() {
 
   return (
     <>
+      <BackBtn styles={{ position: "absolute", top: "60px", left: "60px" }} />
       <Typography
         component="h2"
         variant="h2"
